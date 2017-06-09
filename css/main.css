@@ -1,0 +1,79 @@
+* { padding: 0; margin: 0; }
+body { font-family: '微软雅黑', Arial, 'sans-serif' }
+ul li {	list-style: none; }
+a:hover, a:link, a:visited, a:active { text-decoration: none; color: #fff; }
+h1 { font-size: 36px; }
+h2 { font-size: 26px; font-weight: lighter; padding-bottom: 20px; }
+h3 { font-size: 18px; }
+input { height: 28px; font-family: '微软雅黑', Arial, 'sans-serif'; font-size: 14px; line-height: 28px; padding: 0 8px; min-width: 200px; }
+.clear { content: ''; display: table; clear: both; }
+.btn { display: inline-block; padding: 5px 10px; background: #1c9efe; color: #fff; border-radius: 5px; transition: all .5s; -webkit-transition: all .5s; -o-transition: all .5s; }
+.btn.add { background: #337ab7; }
+.btn.modify { background: #f0ad4e; margin-bottom: 5px; }
+.btn.search { background: #5cb85c; }
+.btn.delete { background: #d9534f; }
+.btn.save { background: #5bc0de; }
+.btn.cancle { background: #969393; }
+.btn.add:hover { background: #4392d6; }
+.btn.modify:hover { background: #f5bc6c; }
+.btn.search:hover { background: #6cd46c; }
+.btn.delete:hover { background: #f9605b; }
+.btn.save:hover { background: #68d8f9; }
+.btn.cancle:hover { background: #b3b1b1; }
+
+.container { width: 100%; }
+.container-left { position: absolute; float: left; height: 100%; width: 22%; background: #333; color: #fff; }
+.container-right { position: relative; float: right; width: 78%; background: #fff; color: #333; }
+.logo img { display: block; width: 100%; }
+.nav li a { display: block; padding: 10px 20px; border-left: 8px #333 solid; transition: all .5s; -webkit-transition: all .5s; -o-transition: all .5s; }
+.nav li a.active { background: #488fd2; border-left: 8px #245c90 solid; }
+.nav li a:hover { background: #488fd2; border-left: 8px #245c90 solid; }
+
+
+.top { padding: 20px; background: #1c9efe; text-align: right; }
+.top a { display: inline-block; padding: 5px 10px; color: #fff; border: 1px #fff solid; border-radius: 5px; margin-right: 10px; transition: all .5s; -webkit-transition: all .5s; -o-transition: all .5s; }
+.top a:hover { color: #ddd; border: 1px #ddd solid; } 
+ul.handle li { display: inline-block; }
+
+.main { padding: 20px; }
+
+table { width: 100%; border-collapse: collapse; }
+table thead { background: #59d1a3; color: #fff; }
+table tbody tr { transition: all .5s; -webkit-transition: all .5s; -o-transition: all .5s; }
+table tbody tr:hover { background: #eee; }
+table td, table th { padding: 10px 5px; text-align: center; }
+table td { border-bottom: 1px solid #ddd; font-size: 14px; }
+table th { border-bottom: 1px solid #59d1a3; }
+
+.operate { padding-bottom: 20px; }
+.operate a { display: inline-block; padding: 5px 20px; }
+form .entry { padding-bottom: 10px; }
+form .entry label { display: inline-block; min-width: 70px; }
+
+.paginate { margin: 30px 0 15px; }
+.paginate ul li { float: left; text-align: center; margin-right: 10px; }
+.paginate ul li a.active { border: 0; color: #333; cursor: default;  }
+.paginate ul li a.active:hover { border: 0; color: #333; background: #fff; cursor: default;  }
+.paginate ul li a { padding: 6px 12px; border: 1px #1c9efe solid; background: #fff; color: #1c9efe; transition: all .5s; -webkit-transition: all .5s; -o-transition: all .5s; }
+.paginate ul li a:hover { background: #1c9efe; color: #fff; }
+
+.popup { display: none; position: fixed; left: 0; right: 0; top: 0; bottom: 0; height: 100%; width: 100%; background: rgba(0, 0, 0, .5); }
+.popup.active { display: block; } 
+.popup .content { position: absolute; left: 50%; top: 50%; margin-top: -250px; margin-left: -200px; width: 400px; background: #fff; border-radius: 5px; }
+.popup .content .title { padding: 10px 20px; background: #1c9efe; text-align: left; color: #fff; border-top-right-radius: 5px; border-top-left-radius: 5px; font-size: 20px; }
+.form { padding: 20px; }
+.form .operateForm label { display: inline-block; width: 30%; }
+.form .operateForm input { display: inline-block; width: 63%; }
+.popup .operate { padding: 20px; text-align: center; }
+.popup .operate a { margin: 0 20px; }
+.popup .content .close { position: absolute; right: 0; top: 10px; }
+.popup .content .close .btn-close { padding: 10px; }
+
+.popupLogin { display: none; position: fixed; left: 0; right: 0; top: 0; bottom: 0; height: 100%; width: 100%; background: rgba(0, 0, 0, .5); }
+.popupLogin.active { display: block; } 
+.popupLogin .content { position: absolute; left: 50%; top: 50%; margin-top: -250px; margin-left: -200px; width: 400px; background: #fff; border-radius: 5px; }
+.popupLogin .content .title { padding: 10px 20px; background: #1c9efe; text-align: left; color: #fff; border-top-right-radius: 5px; border-top-left-radius: 5px; font-size: 20px; }
+.popupLogin .operate { padding: 20px; text-align: center; }
+.popupLogin .operate a { margin: 0 20px; }
+.popupLogin .content .close { position: absolute; right: 0; top: 10px; }
+.popupLogin .content .close .btn-close { padding: 10px; }

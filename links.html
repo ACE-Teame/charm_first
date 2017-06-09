@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+	<title>链接统计系统</title>
+	<link rel="stylesheet" type="text/css" href="css/font/iconfont.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+</head>
+<body>
+	<div class="container clear">
+		<div class="container-left">
+			<div class="logo">
+				<div class="img"><a href="index.html"><img src="images/logo.png" alt=""></a></div>
+			</div>
+			<ul class="nav">
+				<li>
+				    <a href="index.html" class="active">首页</a>
+				</li>
+				<li>
+				    <a href="domain.html">域名管理</a>
+				</li>
+				<li>
+				    <a href="dp-links.html">部门链接管理</a>
+				</li>
+				<li>
+				    <a href="links.html">个人链接管理</a>
+				</li>
+				<li>
+				    <a href="permit.html">权限管理</a>
+				</li>
+			</ul>
+		</div>
+		<div class="container-right">
+			<div class="top">
+				<ul class="handle">
+					<li><a href="#" class="login">登录</a></li>
+				</ul>
+			</div>
+			<div class="main">
+				<h2>个人链接管理</h2>
+				<div class="operate">
+					<a href="#" class="btn add">新增</a>
+					<a href="#" class="btn search">查询</a>
+				</div>
+				<form action="#">
+					<div class="entry">
+						<label>负责人:</label>
+						<input type="text" name="domain" placeholder="">
+					</div>
+					<div class="entry">
+						<label>原始链接:</label>
+						<input type="text" name="nature" placeholder="http://">
+					</div>
+					<div class="entry">
+						<label>时间范围:</label>
+						<input type="text" name="starttime" placeholder="起始时间"> - 
+						<input type="text" name="endtime" placeholder="结束时间">
+					</div>
+					<div class="entry">
+						<label>状态:</label>
+						<input type="text" name="record" placeholder="">
+					</div>						
+				</form>
+
+				<div class="table">
+					<table>
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>负责人</th>
+								<th>原始链接</th>
+								<th>推广链接</th>
+								<th>行业</th>								
+								<th>时间</th>
+								<th>是否是H5</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>John</td>
+								<td>http://www.baidu.com</td>
+								<td>http://www.sss.com</td>
+								<td>游戏</td>
+								<td>2017-06-06</td>
+								<td>是</td>
+								<td>新链接</td>
+								<td>
+									<a href="#" class="btn modify">修改</a>
+									<a href="#" class="btn delete">删除</a>
+								</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>Make</td>
+								<td>http://www.baidu.com</td>
+								<td>http://www.sss.com</td>
+								<td>彩票</td>
+								<td>2017-06-06</td>
+								<td>是</td>
+								<td>新链接</td>
+								<td>
+									<a href="#" class="btn modify">修改</a>
+									<a href="#" class="btn delete">删除</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="paginate">
+						<ul class="clear">
+							<li><a href="#" class="active">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">...</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+						</ul>
+					</div>
+				</div> <!-- end table -->
+			</div><!-- end main -->
+
+			<div class="popup">
+				<div class="content">
+					<div class="title">新增</div>
+					<div class="form">				
+						<form action="#" class="operateForm">
+							<div class="entry">
+								<input type="hidden" name="domainID">
+							</div>
+							<div class="entry">
+								<label>负责人:</label>
+								<input type="text" name="leader" placeholder="">
+							</div>
+							<div class="entry">
+								<label>原始链接</label>
+								<input type="text" name="firstlink" placeholder="http://"> 
+							</div>
+							<div class="entry">
+								<label>推广链接:</label>
+								<input type="text" name="adlink" placeholder="http://">
+							</div>
+							<div class="entry">
+								<label>行业:</label>
+								<input type="text" name="industry" placeholder="">
+							</div>
+							<div class="entry">
+								<label>时间:</label>
+								<input type="text" name="date" placeholder="">
+							</div>	
+							<div class="entry">
+								<label>是否是H5:</label>
+								<input type="text" name="h5" placeholder="">
+							</div>
+							<div class="entry">
+								<label>状态:</label>
+								<input type="text" name="status" placeholder="">
+							</div>
+						</form>
+					</div>
+					<div class="operate">					
+						<a href="#" class="btn save">保存</a>
+						<a href="#" class="btn cancle">取消</a>
+					</div>
+					<div class="close"><a href="#" class="btn-close"><i class="iconfont icon-close"></i></a></div> 
+				</div>
+			</div><!-- end popup -->
+
+			<div class="popupLogin">
+				<div class="content">
+					<div class="title">登录</div>
+					<div class="form">						
+						<form action="#" class="loginForm">
+							<div class="entry">
+								<input type="hidden" name="dplinkID">
+							</div>
+							<div class="entry">
+								<label>用户名:</label>
+								<input type="text" name="username" placeholder="">
+							</div>
+							<div class="entry">
+								<label>密码:</label>
+								<input type="password" name="password" placeholder=""> 
+							</div>
+						</form>
+					</div>
+					<div class="operate">					
+						<a href="#" class="btn save">登录</a>
+						<a href="#" class="btn cancle">取消</a>
+					</div>
+					<div class="close"><a href="#" class="btn-close"><i class="iconfont icon-close"></i></a></div> 
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/jquery.min.js"></script>	
+	<script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>
