@@ -1,11 +1,11 @@
 # zjm-pro
 目录结构
-common 公共文件目录 \r
-  	--> common.php\r
-config 配置文件目录\r
-	--> config.php\r
-css\r
-images\r
+common 公共文件目录 
+  	--> common.php
+config 配置文件目录
+	--> config.php
+css
+images
 js
 library 类库目录
 	--> PDO_class.php  PDO类库
