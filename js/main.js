@@ -18,6 +18,12 @@
             $('.popup').addClass('active');
             return false;
         });
+        $('body').on('click', '.menu_list', function(){
+            $(".menu_list").removeClass('active');
+            $(this).addClass('active');
+            return false;
+        });
+        
         $('body').on('click', '.modify', function(){
             $('.popup').addClass('active');
             return false;

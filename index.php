@@ -16,19 +16,19 @@
 			</div>
 			<ul class="nav">
 				<li>
-				    <a href="index.html" class="active">首页</a>
+				    <a href="index.html" class="active menu_list">首页</a>
 				</li>
 				<li>
-				    <a href="domain.html">域名管理</a>
+				    <a href="domain.html" class="menu_list">域名管理</a>
 				</li>
 				<li>
-				    <a href="dp-links.html">部门链接管理</a>
+				    <a href="dp-links.html" class="menu_list">部门链接管理</a>
 				</li>
 				<li>
-				    <a href="links.html">个人链接管理</a>
+				    <a href="links.html" class="menu_list">个人链接管理</a>
 				</li>
 				<li>
-				    <a href="permit.html">权限管理</a>
+				    <a href="permit.html" class="menu_list">限管理</a>
 				</li>
 			</ul>
 		</div>
@@ -72,6 +72,8 @@
 	</div>
 	<script type="text/javascript" src="js/jquery.min.js"></script>	
 	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript">
 
+	</script>
 </body>
 </html>
