@@ -1,3 +1,17 @@
+<?php 
+require_once "init.php";
+require_once CLASS_PATH. "PDO_class.php";
+require_once COMMON_PATH. "common.php";
+
+// require_once COMMON_PATH
+
+$pdo = new server();
+
+
+
+
+ ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,19 +30,19 @@
 			</div>
 			<ul class="nav">
 				<li>
-				    <a href="index.html" class="active menu_list">首页</a>
+				    <a href="index.php" class="active menu_list">首页</a>
 				</li>
 				<li>
-				    <a href="domain.html" class="menu_list">域名管理</a>
+				    <a href="domain.php" class="menu_list">域名管理</a>
 				</li>
 				<li>
-				    <a href="dp-links.html" class="menu_list">部门链接管理</a>
+				    <a href="dp-links.php" class="menu_list">部门链接管理</a>
 				</li>
 				<li>
-				    <a href="links.html" class="menu_list">个人链接管理</a>
+				    <a href="links.php" class="menu_list">个人链接管理</a>
 				</li>
 				<li>
-				    <a href="permit.html" class="menu_list">限管理</a>
+				    <a href="permit.php" class="menu_list">权限管理</a>
 				</li>
 			</ul>
 		</div>

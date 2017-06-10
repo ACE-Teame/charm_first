@@ -1,3 +1,50 @@
+<?php 
+require_once "init.php";
+require_once COMMON_PATH . "common.php";
+require_once CLASS_PATH  . "PDO_class.php";
+require_once CLASS_PATH  . 'page_class.php';
+$pdo = new server();
+if($_POST) {
+	$from_data = [
+		'leader'        => $_POST['leader'],
+		'time'          => time(),
+		'original_link' => $_POST['original_link'],
+		'spread_link'   => $_POST['spread_link'],
+		'industry'      => $_POST['industry'],
+		'is_h5'         => $_POST['is_h5'],
+		'state'         => $_POST['state'],
+	];
+
+	if($_POST['id'] && intval($_POST['id'])) {
+		$pdo->update('person_link', $from_data, 'id=' . intval($_POST['id']));
+	}else {
+		$intInsID = $pdo->insert('person_link',$from_data);
+	}
+}
+
+$count    = $pdo->total('person_link');
+$now_page = intval($_GET['page']) ? intval($_GET['page']) : 1;
+$params   = array(
+    'total_rows'=> $count, #(必须)
+    'method'    => 'html', #(必须)
+    'parameter' => 'links.php?page=$',  #(必须)
+    'now_page'  => $now_page,  #(必须)
+    'list_rows' => PAGE_NUM, #(可选) 默认为15
+);
+// 实例化分页类
+$objPage  = new page($params);
+// 分页
+$page_str = $objPage->show($now_page);
+
+// 计算偏移量
+$offset   = PAGE_NUM * ($now_page - 1);
+$arrData =  $pdo->select('person_link', '', '', '', "$offset," . PAGE_NUM);
+if (count($arrData) == count($arrData, 1)) {
+	$tmpData   = $arrData;
+	$arrData   = [];
+	$arrData[] = $tmpData;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +53,6 @@
 	<title>链接统计系统</title>
 	<link rel="stylesheet" type="text/css" href="css/font/iconfont.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-
 </head>
 <body>
 	<div class="container clear">
@@ -16,19 +62,19 @@
 			</div>
 			<ul class="nav">
 				<li>
-				    <a href="index.html" class="active">首页</a>
+				    <a href="index.php" class="active menu_list">首页</a>
 				</li>
 				<li>
-				    <a href="domain.html">域名管理</a>
+				    <a href="domain.php" class="menu_list">域名管理</a>
 				</li>
 				<li>
-				    <a href="dp-links.html">部门链接管理</a>
+				    <a href="dp-links.php" class="menu_list">部门链接管理</a>
 				</li>
 				<li>
-				    <a href="links.html">个人链接管理</a>
+				    <a href="links.php" class="menu_list">个人链接管理</a>
 				</li>
 				<li>
-				    <a href="permit.html">权限管理</a>
+				    <a href="permit.php" class="menu_list">权限管理</a>
 				</li>
 			</ul>
 		</div>
@@ -80,43 +126,29 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1</td>
-								<td>John</td>
-								<td>http://www.baidu.com</td>
-								<td>http://www.sss.com</td>
-								<td>游戏</td>
-								<td>2017-06-06</td>
-								<td>是</td>
-								<td>新链接</td>
-								<td>
-									<a href="#" class="btn modify">修改</a>
-									<a href="#" class="btn delete">删除</a>
-								</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>Make</td>
-								<td>http://www.baidu.com</td>
-								<td>http://www.sss.com</td>
-								<td>彩票</td>
-								<td>2017-06-06</td>
-								<td>是</td>
-								<td>新链接</td>
-								<td>
-									<a href="#" class="btn modify">修改</a>
-									<a href="#" class="btn delete">删除</a>
-								</td>
-							</tr>
+						<?php if ($arrData): ?>
+							<?php foreach ($arrData as $value): ?>
+								<tr>
+									<td><?php echo $value['id'] ?></td>
+									<td><?php echo $value['leader'] ?></td>
+									<td><?php echo $value['original_link'] ?></td>
+									<td><?php echo $value['spread_link'] ?></td>
+									<td><?php echo $value['industry'] ?></td>
+									<td><?php echo $value['time'] ?></td>
+									<td><?php echo $value['is_h5'] ?></td>
+									<td><?php echo $value['state'] ?></td>
+									<td>
+										<a href="#" class="btn modify" onclick="modify(<?php echo $value['id'] ?>)">修改</a>
+										<a href="#" class="btn delete" onclick="delete_by_id(<?php echo $value['id'] ?>, 'perlink')">删除</a>
+									</td>
+								</tr>	
+							<?php endforeach ?>
+						<?php endif ?>
 						</tbody>
 					</table>
 					<div class="paginate">
 						<ul class="clear">
-							<li><a href="#" class="active">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">...</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
+							<?php echo $page_str ?>
 						</ul>
 					</div>
 				</div> <!-- end table -->
@@ -126,42 +158,42 @@
 				<div class="content">
 					<div class="title">新增</div>
 					<div class="form">				
-						<form action="#" class="operateForm">
+						<form action="#" class="operateForm" method="POST" name="form1">
 							<div class="entry">
-								<input type="hidden" name="domainID">
+								<input type="hidden" name="id" id="id">
 							</div>
 							<div class="entry">
 								<label>负责人:</label>
-								<input type="text" name="leader" placeholder="">
+								<input type="text" name="leader" id="leader" placeholder="">
 							</div>
 							<div class="entry">
 								<label>原始链接</label>
-								<input type="text" name="firstlink" placeholder="http://"> 
+								<input type="text" name="original_link" id="original_link" placeholder="http://"> 
 							</div>
 							<div class="entry">
 								<label>推广链接:</label>
-								<input type="text" name="adlink" placeholder="http://">
+								<input type="text" name="spread_link" id="spread_link" placeholder="http://">
 							</div>
 							<div class="entry">
 								<label>行业:</label>
-								<input type="text" name="industry" placeholder="">
+								<input type="text" name="industry" id="industry" placeholder="">
 							</div>
 							<div class="entry">
 								<label>时间:</label>
-								<input type="text" name="date" placeholder="">
+								<input type="text" name="time" id="time" placeholder="">
 							</div>	
 							<div class="entry">
 								<label>是否是H5:</label>
-								<input type="text" name="h5" placeholder="">
+								<input type="text" name="is_h5" id="is_h5" placeholder="">
 							</div>
 							<div class="entry">
 								<label>状态:</label>
-								<input type="text" name="status" placeholder="">
+								<input type="text" name="state" id="state" placeholder="">
 							</div>
 						</form>
 					</div>
 					<div class="operate">					
-						<a href="#" class="btn save">保存</a>
+						<a href="javascript:document.form1.submit();" class="btn save" >保存</a>
 						<a href="#" class="btn cancle">取消</a>
 					</div>
 					<div class="close"><a href="#" class="btn-close"><i class="iconfont icon-close"></i></a></div> 
@@ -197,6 +229,23 @@
 	</div>
 	<script type="text/javascript" src="js/jquery.min.js"></script>	
 	<script type="text/javascript" src="js/main.js"></script>
-
+	<script>
+		function modify(id) {
+			$.get('app.php',{id:id, state:'perlink', type:'modi'}, function(data) {
+				if(data.status == 200) {
+					var result = JSON.parse(data.msg);
+					$('#leader').val(result.leader);
+					$('#original_link').val(result.original_link);
+					$('#spread_link').val(result.spread_link);
+					$('#industry').val(result.industry);
+					$('#time').val(result.time);
+					$('#is_h5').val(result.is_h5);
+					$('#state').val(result.state);
+					$('#id').val(result.id);
+				}
+				console.log(data);
+			}, 'json');
+		}
+	</script>
 </body>
 </html>

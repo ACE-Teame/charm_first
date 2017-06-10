@@ -1,3 +1,50 @@
+<?php 
+require_once "init.php";
+require_once CLASS_PATH  . "PDO_class.php";
+require_once COMMON_PATH . "common.php";
+require_once CLASS_PATH  . 'page_class.php';
+$pdo = new server();
+if($_POST) {
+	$from_data = [
+		'section'  => $_POST['section'],
+		'domain'   => $_POST['domain'],
+		'time'     => time(),
+		'costomer' => $_POST['costomer'],
+		'state'    => $_POST['state'],
+	];
+
+	if($_POST['id'] && intval($_POST['id'])) {
+		unset($domain['time']);
+		$pdo->update('section_link', $from_data, 'id=' . intval($_POST['id']));
+	}else {
+		$intInsID = $pdo->insert('section_link',$from_data);
+	}
+}
+
+$count    = $pdo->total('section_link');
+$now_page = intval($_GET['page']) ? intval($_GET['page']) : 1;
+$params   = array(
+    'total_rows'=> $count, #(必须)
+    'method'    => 'html', #(必须)
+    'parameter' => 'dp-links.php?page=$',  #(必须)
+    'now_page'  => $now_page,  #(必须)
+    'list_rows' => PAGE_NUM, #(可选) 默认为15
+);
+// 实例化分页类
+$objPage  = new page($params);
+// 分页
+$page_str = $objPage->show($now_page);
+
+// 计算偏移量
+$offset   = PAGE_NUM * ($now_page - 1);
+$arrData =  $pdo->select('section_link', '', '', '', "$offset," . PAGE_NUM);
+if (count($arrData) == count($arrData, 1)) {
+	$tmpData   = $arrData;
+	$arrData   = [];
+	$arrData[] = $tmpData;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,19 +63,19 @@
 			</div>
 			<ul class="nav">
 				<li>
-				    <a href="index.html" class="active">首页</a>
+				    <a href="index.php" class="active menu_list">首页</a>
 				</li>
 				<li>
-				    <a href="domain.html">域名管理</a>
+				    <a href="domain.php" class="menu_list">域名管理</a>
 				</li>
 				<li>
-				    <a href="dp-links.html">部门链接管理</a>
+				    <a href="dp-links.php" class="menu_list">部门链接管理</a>
 				</li>
 				<li>
-				    <a href="links.html">个人链接管理</a>
+				    <a href="links.php" class="menu_list">个人链接管理</a>
 				</li>
 				<li>
-				    <a href="permit.html">权限管理</a>
+				    <a href="permit.php" class="menu_list">权限管理</a>
 				</li>
 			</ul>
 		</div>
@@ -78,39 +125,27 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1</td>
-								<td>TSA</td>
-								<td>http://www.baidu.com</td>
-								<td>2017-06-06</td>
-								<td>A客户</td>
-								<td>新链接</td>
-								<td>
-									<a href="#" class="btn modify">修改</a>
-									<a href="#" class="btn delete">删除</a>
-								</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>TSA</td>
-								<td>http://www.baidu.com</td>
-								<td>2017-06-06</td>
-								<td>A客户</td>
-								<td>改版</td>
-								<td>
-									<a href="#" class="btn modify">修改</a>
-									<a href="#" class="btn delete">删除</a>
-								</td>
-							</tr>
+						<?php if ($arrData): ?>
+							<?php foreach ($arrData as $key => $value): ?>
+								<tr>
+									<td><?php echo $value['id'] ?></td>
+									<td><?php echo $value['section'] ?></td>
+									<td><?php echo $value['domain'] ?></td>
+									<td><?php echo date('Y-m-d H:i:s', $value['time']) ?></td>
+									<td><?php echo $value['costomer'] ?></td>
+									<td><?php echo $value['state'] ?></td>
+									<td>
+										<a href="#" class="btn modify" onclick="modify(<?php echo $value['id'] ?>)">修改</a>
+										<a href="#" class="btn delete" onclick="delete_by_id(<?php echo $value['id'] ?>, 'seclink')">删除</a>
+									</td>
+								</tr>
+							<?php endforeach ?>
+						<?php endif ?>
 						</tbody>
 					</table>
 					<div class="paginate">
 						<ul class="clear">
-							<li><a href="#" class="active">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">...</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
+							<?php echo $page_str ?>
 						</ul>
 					</div>
 				</div> <!-- end table -->
@@ -120,34 +155,34 @@
 				<div class="content">
 					<div class="title">新增</div>
 					<div class="form">						
-						<form action="#" class="operateForm">
+						<form action="#" class="operateForm" name="form1" method="POST">
 							<div class="entry">
-								<input type="hidden" name="dplinkID">
+								<input type="hidden" name="id" id="id">
 							</div>
 							<div class="entry">
 								<label>部门:</label>
-								<input type="text" name="department" placeholder="">
+								<input type="text" name="section" id="section" placeholder="">
 							</div>
 							<div class="entry">
 								<label>域名</label>
-								<input type="text" name="domain" placeholder="http://"> 
+								<input type="text" name="domain" id="domain" placeholder="http://"> 
 							</div>
 							<div class="entry">
 								<label>日期:</label>
-								<input type="text" name="date" placeholder="">
+								<input type="text" name="time" id="time" placeholder="">
 							</div>
 							<div class="entry">
 								<label>客户:</label>
-								<input type="text" name="customer" placeholder="">
+								<input type="text" name="costomer" id="costomer" placeholder="">
 							</div>
 							<div class="entry">
 								<label>状态:</label>
-								<input type="text" name="status" placeholder="">
+								<input type="text" name="state" id="state" placeholder="">
 							</div>
 						</form>
 					</div>
 					<div class="operate">					
-						<a href="#" class="btn save">保存</a>
+						<a href="javascript:document.form1.submit();" class="btn save">保存</a>
 						<a href="#" class="btn cancle">取消</a>
 					</div>
 					<div class="close"><a href="#" class="btn-close"><i class="iconfont icon-close"></i></a></div> 
@@ -183,6 +218,21 @@
 	</div>
 	<script type="text/javascript" src="js/jquery.min.js"></script>	
 	<script type="text/javascript" src="js/main.js"></script>
-
+	<script>
+		function modify(id) {
+			$.get('app.php',{id:id, state:'seclink', type:'modi'}, function(data) {
+				if(data.status == 200) {
+					var result = JSON.parse(data.msg);
+					$('#domain').val(result.domain);
+					$('#section').val(result.section);
+					$('#time').val(result.time);
+					$('#costomer').val(result.costomer);
+					$('#state').val(result.state);
+					$('#id').val(result.id);
+				}
+				console.log(data);
+			}, 'json');
+		}
+	</script>
 </body>
 </html>

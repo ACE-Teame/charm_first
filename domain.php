@@ -1,3 +1,52 @@
+<?php 
+require_once "init.php";
+require_once CLASS_PATH  . "PDO_class.php";
+require_once COMMON_PATH . "common.php";
+require_once CLASS_PATH  . 'page_class.php';
+$pdo = new server();
+if($_POST) {
+	$from_data = [
+		'domain'        => $_POST['domain'],
+		'time'          => time(),
+		'money'         => $_POST['money'],
+		'record_number' => $_POST['record_number'],
+		'company'       => $_POST['company'],
+		'nature'        => $_POST['nature'],
+	];
+
+	if($_POST['id'] && intval($_POST['id'])) {
+		unset($domain['time']);
+		$pdo->update('domain', $from_data, 'id=' . intval($_POST['id']));
+	}else {
+		$intInsID = $pdo->insert('domain',$from_data);
+	}
+}
+
+$count    = $pdo->total('domain');
+$now_page = intval($_GET['page']) ? intval($_GET['page']) : 1;
+$params   = array(
+    'total_rows'=> $count, #(必须)
+    'method'    => 'html', #(必须)
+    'parameter' => 'domain.php?page=$',  #(必须)
+    'now_page'  => $now_page,  #(必须)
+    'list_rows' => PAGE_NUM, #(可选) 默认为15
+);
+// 实例化分页类
+$objPage  = new page($params);
+// 分页
+$page_str = $objPage->show($now_page);
+
+// 计算偏移量
+$offset   = PAGE_NUM * ($now_page - 1);
+$arrData =  $pdo->select('domain', '', '', '', "$offset," . PAGE_NUM);
+
+if (count($arrData) == count($arrData, 1)) {
+	$tmpData         = $arrData;
+	$arrData   = [];
+	$arrData[] = $tmpData;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,19 +65,19 @@
 			</div>
 			<ul class="nav">
 				<li>
-				    <a href="index.html" class="active">首页</a>
+				    <a href="index.php" class="active menu_list">首页</a>
 				</li>
 				<li>
-				    <a href="domain.html">域名管理</a>
+				    <a href="domain.php" class="menu_list">域名管理</a>
 				</li>
 				<li>
-				    <a href="dp-links.html">部门链接管理</a>
+				    <a href="dp-links.php" class="menu_list">部门链接管理</a>
 				</li>
 				<li>
-				    <a href="links.html">个人链接管理</a>
+				    <a href="links.php" class="menu_list">个人链接管理</a>
 				</li>
 				<li>
-				    <a href="permit.html">权限管理</a>
+				    <a href="permit.php" class="menu_list">权限管理</a>
 				</li>
 			</ul>
 		</div>
@@ -79,42 +128,28 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1</td>
-								<td>aaa.com</td>
-								<td>2017-06-06</td>
-								<td>90</td>
-								<td>浙ICP备15017819号-1</td>
-								<td>杭州知底儿网络技术有限公司</td>
-								<td>企业</td>
-								<td>
-									<a href="#" class="btn modify">修改</a>
-									<a href="#" class="btn delete">删除</a>
-								</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>aaa.com</td>
-								<td>2017-06-06</td>
-								<td>90</td>
-								<td>浙ICP备15017819号-1</td>
-								<td>杭州知底儿网络技术有限公司</td>
-								<td>企业</td>
-								<td>
-									<a href="#" class="btn modify">修改</a>
-									<a href="#" class="btn delete">删除</a>
-								</td>
-							</tr>
+							<?php if($arrData) { foreach ($arrData as $key => $value){ ?>
+								<tr>
+									<td><?php echo $value['id'] ?></td>
+									<td><?php echo $value['domain'] ?></td>
+									<td><?php echo date('Y-m-d H:i:s', $value['time']) ?></td>
+									<td><?php echo $value['money'] ?></td>
+									<td><?php echo $value['record_number'] ?></td>
+									<td><?php echo $value['company'] ?></td>
+									<td><?php echo $value['nature'] ?></td>
+									<td>
+										<a href="#" class="btn modify" id="" onclick="modify(<?php echo $value['id'] ?>)">修改</a>
+										<a href="#" class="btn delete" onclick="delete_by_id(<?php echo $value['id'] ?>, 'domain')">删除</a>
+									</td>
+								</tr>
+							<?php } } ?>
+							
 						</tbody>
 					</table>
 
 					<div class="paginate">
 						<ul class="clear">
-							<li><a href="#" class="active">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">...</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
+							<?php echo $page_str ?>
 						</ul>
 					</div>
 				</div> <!-- end table -->
@@ -124,40 +159,41 @@
 				<div class="content">
 					<div class="title">新增</div>
 					<div class="form">						
-						<form action="#" class="operateForm">
+						<form action="#" class="operateForm" method="POST" name="form1">
 							<div class="entry">
-								<input type="hidden" name="domainID">
+								<input type="hidden" name="id" id="id" value="">
 							</div>
 							<div class="entry">
 								<label>域名:</label>
-								<input type="text" name="domain" placeholder="http://">
+								<input type="text" name="domain" id="domain" placeholder="http://">
 							</div>
 							<div class="entry">
 								<label>日期</label>
-								<input type="text" name="date" placeholder=""> 
+								<input type="text" name="time" id="time" placeholder=""> 
 							</div>
 							<div class="entry">
 								<label>费用:</label>
-								<input type="text" name="nature" placeholder="">
+								<input type="text" name="money" id="money" placeholder="">
 							</div>
 							<div class="entry">
 								<label>备案号:</label>
-								<input type="text" name="record" placeholder="粤ICP备XXX号-1">
+								<input type="text" name="record_number" id="record_number" placeholder="粤ICP备XXX号-1">
 							</div>
 							<div class="entry">
 								<label>域名所属公司:</label>
-								<input type="text" name="record" placeholder="">
+								<input type="text" name="company" id="company" placeholder="">
 							</div>	
 							<div class="entry">
 								<label>性质:</label>
-								<input type="text" name="nature" placeholder="企业/个人">
+								<input type="text" name="nature" id="nature" placeholder="企业/个人">
 							</div>
-						</form>
+						
 					</div>
 					<div class="operate">					
-						<a href="#" class="btn save">保存</a>
+						<a href="javascript:document.form1.submit();" class="btn save" >保存</a>
 						<a href="#" class="btn cancle">取消</a>
 					</div>
+					</form>
 					<div class="close"><a href="#" class="btn-close"><i class="iconfont icon-close"></i></a></div> 
 				</div>
 			</div><!-- end popup -->
@@ -191,5 +227,23 @@
 	</div>
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
+	<script>
+
+		function modify(id) {
+			$.get('app.php',{id:id, state:'domain', type:'modi'}, function(data) {
+				if(data.status == 200) {
+					var result = JSON.parse(data.msg);
+					$('#domain').val(result.domain);
+					$('#time').val(result.time);
+					$('#money').val(result.money);
+					$('#record_number').val(result.record_number);
+					$('#company').val(result.company);
+					$('#nature').val(result.nature);
+					$('#id').val(result.id);
+				}
+				console.log(data);
+			}, 'json');
+		}
+	</script>	
 </body>
 </html>

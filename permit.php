@@ -16,19 +16,19 @@
 			</div>
 			<ul class="nav">
 				<li>
-				    <a href="index.html" class="active">首页</a>
+				    <a href="index.php" class="active menu_list">首页</a>
 				</li>
 				<li>
-				    <a href="domain.html">域名管理</a>
+				    <a href="domain.php" class="menu_list">域名管理</a>
 				</li>
 				<li>
-				    <a href="dp-links.html">部门链接管理</a>
+				    <a href="dp-links.php" class="menu_list">部门链接管理</a>
 				</li>
 				<li>
-				    <a href="links.html">个人链接管理</a>
+				    <a href="links.php" class="menu_list">个人链接管理</a>
 				</li>
 				<li>
-				    <a href="permit.html">权限管理</a>
+				    <a href="permit.php" class="menu_list">权限管理</a>
 				</li>
 			</ul>
 		</div>
