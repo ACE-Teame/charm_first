@@ -159,11 +159,13 @@ class server
 			if (! empty($where)) {
 				$ifwhere = "where {$where}";
 			}
-			$result = $this->server->query("SELECT COUNT(*) AS total FROM {$table} {$ifwhere}"); 
-			foreach ($result as $v) {
-	    		$total = $v['total'];
-	  		}
-	  		return (int)$total;
+			$result = $this->server->query("SELECT COUNT(*) AS total FROM {$table} {$ifwhere}");
+			if($result) {
+				foreach ($result as $v) {
+		    		$total = $v['total'];
+		  		}
+			}
+	  		return $total ? (int)$total : 0;
   		} catch (PDOException $e) {
 	      exit($e->getMessage());
 	    }

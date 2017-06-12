@@ -4,6 +4,8 @@ require_once CLASS_PATH  . "PDO_class.php";
 require_once COMMON_PATH . "common.php";
 require_once CLASS_PATH  . 'page_class.php';
 $pdo = new server();
+
+// post提交为数据的增、改
 if($_POST) {
 	$from_data = [
 		'domain'        => $_POST['domain'],
@@ -22,7 +24,19 @@ if($_POST) {
 	}
 }
 
-$count    = $pdo->total('domain');
+// get方式为查询 组装查询条件
+$where = '';
+if ($_GET) {
+	if($_GET['domain']) $where = "domain like '%".$_GET["domain"]. "%' AND";
+	if($_GET['nature']) $where .= "nature like '%".$_GET["nature"]. "%' AND";
+	// if($_GET['domain']) $where .= 'domain like %'.$_GET['domain']. '% AND';
+	if($_GET['record_number']) $where .= "domain like '%".$_GET["record_number"]. "%' AND";
+
+	$where = $where ? rtrim($where, ' AND') : '';
+}
+// 取出总数量
+$count    = $pdo->total('domain', $where);
+// 获得当前页码
 $now_page = intval($_GET['page']) ? intval($_GET['page']) : 1;
 $params   = array(
     'total_rows'=> $count, #(必须)
@@ -38,8 +52,9 @@ $page_str = $objPage->show($now_page);
 
 // 计算偏移量
 $offset   = PAGE_NUM * ($now_page - 1);
-$arrData =  $pdo->select('domain', '', '', '', "$offset," . PAGE_NUM);
-
+// 取出数据
+$arrData =  $pdo->select('domain', $where, '', '', "$offset," . PAGE_NUM);
+// 一维数组转为二维
 if (count($arrData) == count($arrData, 1)) {
 	$tmpData         = $arrData;
 	$arrData   = [];
@@ -91,9 +106,9 @@ if (count($arrData) == count($arrData, 1)) {
 				<h2>域名管理</h2>
 				<div class="operate">
 					<a href="#" class="btn add">新增</a>
-					<a href="#" class="btn search">查询</a>
+					<a href="javascript:document.search.submit()" class="btn search">查询</a>
 				</div>
-				<form action="#" class="searchForm">
+				<form action="#" class="searchForm" method="GET" name="search">
 					<div class="entry">
 						<label>域名:</label>
 						<input type="text" name="domain" placeholder="http://">
@@ -109,7 +124,7 @@ if (count($arrData) == count($arrData, 1)) {
 					</div>
 					<div class="entry">
 						<label>备案号:</label>
-						<input type="text" name="record" placeholder="粤ICP备XXX号-1">
+						<input type="text" name="record_number" placeholder="粤ICP备XXX号-1">
 					</div>						
 				</form>
 
