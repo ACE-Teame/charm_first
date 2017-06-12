@@ -6,6 +6,25 @@ h1 { font-size: 36px; }
 h2 { font-size: 26px; font-weight: lighter; padding-bottom: 20px; }
 h3 { font-size: 18px; }
 input { height: 28px; font-family: '微软雅黑', Arial, 'sans-serif'; font-size: 14px; line-height: 28px; padding: 0 8px; min-width: 200px; }
+select {
+  /*统一边框*/
+  border: solid 1px #999;
+  /*将默认的select选择框样式清除*/
+  appearance:none; /*这个样式就是清楚他的下拉按钮的默认样式*/
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  /*替换选择框的最右侧显示小箭头图片*/
+  background: url("../images/select-down1.png") no-repeat scroll right center transparent;
+  /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+  line-height: 30px;
+  background-size: 28px 12px;
+  width: 68.6%;
+  padding: 0px 30px 0 8px;
+  font-size: 14px;
+}
+/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+select::-ms-expand { display: none; }
+
 .clear { content: ''; display: table; clear: both; }
 .btn { display: inline-block; padding: 5px 10px; background: #1c9efe; color: #fff; border-radius: 5px; transition: all .5s; -webkit-transition: all .5s; -o-transition: all .5s; }
 .btn.add { background: #337ab7; }
@@ -22,7 +41,7 @@ input { height: 28px; font-family: '微软雅黑', Arial, 'sans-serif'; font-siz
 .btn.cancle:hover { background: #b3b1b1; }
 
 .container { width: 100%; }
-.container-left { position: absolute; float: left; height: 100%; width: 22%; background: #333; color: #fff; }
+.container-left { position: fixed; float: left; height: 100%; width: 22%; background: #333; color: #fff; }
 .container-right { position: relative; float: right; width: 78%; background: #fff; color: #333; }
 .logo img { display: block; width: 100%; }
 .nav li a { display: block; padding: 10px 20px; border-left: 8px #333 solid; transition: all .5s; -webkit-transition: all .5s; -o-transition: all .5s; }
@@ -30,10 +49,12 @@ input { height: 28px; font-family: '微软雅黑', Arial, 'sans-serif'; font-siz
 .nav li a:hover { background: #488fd2; border-left: 8px #245c90 solid; }
 
 
-.top { padding: 20px; background: #1c9efe; text-align: right; }
+.top { padding: 20px; background: #1c9efe; width: 100%; box-sizing: border-box; }
 .top a { display: inline-block; padding: 5px 10px; color: #fff; border: 1px #fff solid; border-radius: 5px; margin-right: 10px; transition: all .5s; -webkit-transition: all .5s; -o-transition: all .5s; }
 .top a:hover { color: #ddd; border: 1px #ddd solid; } 
-ul.handle li { display: inline-block; }
+.top .copyright { float: left; width: 85%; color: #fff; }
+.top .handle { float: right; width: 15%; }
+/*ul.handle li { display: inline-block; }*/
 
 .main { padding: 20px; }
 
@@ -42,7 +63,12 @@ table thead { background: #59d1a3; color: #fff; }
 table tbody tr { transition: all .5s; -webkit-transition: all .5s; -o-transition: all .5s; }
 table tbody tr:hover { background: #eee; }
 table td, table th { padding: 10px 5px; text-align: center; }
-table td { border-bottom: 1px solid #ddd; font-size: 14px; }
+table td { border-bottom: 1px solid #ddd; font-size: 14px; word-wrap:break-word; }
+table td a.domainLink:link, table td a.domainLink:visited, table td a.domainLink:active { color: #1c9efe; display: inline-block; max-width: 180px; }
+table td a.domainLink:hover { text-decoration: underline; }
+table td a.spreadLink:link, table td a.spreadLink:visited, table td a.spreadLink:active { color: #1c9efe; display: inline-block; max-width: 180px; }
+table td a.spreadLink:hover { text-decoration: underline; }
+
 table th { border-bottom: 1px solid #59d1a3; }
 
 .operate { padding-bottom: 20px; }
@@ -52,8 +78,8 @@ form .entry label { display: inline-block; min-width: 70px; }
 
 .paginate { margin: 30px 0 15px; }
 .paginate ul li { float: left; text-align: center; margin-right: 10px; }
-.paginate ul li a.active { border: 0; color: #333; cursor: default;  }
-.paginate ul li a.active:hover { border: 0; color: #333; background: #fff; cursor: default;  }
+.paginate ul a.now_page { border: 0; color: #333; cursor: default;  }
+.paginate ul a.now_page:hover { border: 0; color: #333; background: #fff; cursor: default;  }
 .paginate ul li a { padding: 6px 12px; border: 1px #1c9efe solid; background: #fff; color: #1c9efe; transition: all .5s; -webkit-transition: all .5s; -o-transition: all .5s; }
 .paginate ul li a:hover { background: #1c9efe; color: #fff; }
 
