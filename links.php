@@ -22,23 +22,23 @@ if($_POST) {
 	}
 }
 
-$count    = $pdo->total('person_link');
+// get方式为查询 组装查询条件
+$where = '';
+if ($_GET) {
+	if($_GET['leader']) $where = "leader like '%".$_GET["leader"]. "%' AND";
+	if($_GET['original_link']) $where .= "original_link like '%".$_GET["original_link"]. "%' AND";
+	// if($_GET['domain']) $where .= 'domain like %'.$_GET['domain']. '% AND';
+	if($_GET['state']) $where .= "state like '%".$_GET["state"]. "%' AND";
+
+	$where = $where ? rtrim($where, ' AND') : '';
+}
+
+$count    = $pdo->total('person_link', $where);
 $now_page = intval($_GET['page']) ? intval($_GET['page']) : 1;
-$params   = array(
-    'total_rows'=> $count, #(必须)
-    'method'    => 'html', #(必须)
-    'parameter' => 'links.php?page=$',  #(必须)
-    'now_page'  => $now_page,  #(必须)
-    'list_rows' => PAGE_NUM, #(可选) 默认为15
-);
-// 实例化分页类
-$objPage  = new page($params);
-// 分页
-$page_str = $objPage->show($now_page);
 
 // 计算偏移量
 $offset   = PAGE_NUM * ($now_page - 1);
-$arrData =  $pdo->select('person_link', '', '', '', "$offset," . PAGE_NUM);
+$arrData =  $pdo->select('person_link', $where, '', '', "$offset," . PAGE_NUM);
 if (count($arrData) == count($arrData, 1)) {
 	$tmpData   = $arrData;
 	$arrData   = [];
@@ -63,16 +63,16 @@ if (count($arrData) == count($arrData, 1)) {
 				<h2>个人链接管理</h2>
 				<div class="operate">
 					<a href="#" class="btn add">新增</a>
-					<a href="#" class="btn search">查询</a>
+					<a href="javascript:document.search.submit()" class="btn search">查询</a>
 				</div>
-				<form action="#">
+				<form action="#" method="GET" name="search">
 					<div class="entry">
 						<label>负责人:</label>
-						<input type="text" name="domain" placeholder="">
+						<input type="text" name="leader" placeholder="">
 					</div>
 					<div class="entry">
 						<label>原始链接:</label>
-						<input type="text" name="nature" placeholder="http://">
+						<input type="text" name="original_link" placeholder="http://">
 					</div>
 					<div class="entry">
 						<label>时间范围:</label>
@@ -81,7 +81,7 @@ if (count($arrData) == count($arrData, 1)) {
 					</div>
 					<div class="entry">
 						<label>状态:</label>
-						<input type="text" name="record" placeholder="">
+						<input type="text" name="state" placeholder="">
 					</div>						
 				</form>
 
@@ -123,7 +123,11 @@ if (count($arrData) == count($arrData, 1)) {
 					</table>
 					<div class="paginate">
 						<ul class="clear">
-							<?php echo $page_str ?>
+							<?php if ($count > PAGE_NUM){ 
+								// 实例化分页类
+								$objPage  = new page($count, PAGE_NUM, $now_page, '?page={page}');
+								echo $objPage->myde_write();
+							}  ?>
 						</ul>
 					</div>
 				</div> <!-- end table -->

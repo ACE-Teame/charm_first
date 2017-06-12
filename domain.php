@@ -30,7 +30,7 @@ if ($_GET) {
 	if($_GET['domain']) $where = "domain like '%".$_GET["domain"]. "%' AND";
 	if($_GET['nature']) $where .= "nature like '%".$_GET["nature"]. "%' AND";
 	// if($_GET['domain']) $where .= 'domain like %'.$_GET['domain']. '% AND';
-	if($_GET['record_number']) $where .= "domain like '%".$_GET["record_number"]. "%' AND";
+	if($_GET['record_number']) $where .= "record_number like '%".$_GET["record_number"]. "%' AND";
 
 	$where = $where ? rtrim($where, ' AND') : '';
 }
@@ -38,17 +38,6 @@ if ($_GET) {
 $count    = $pdo->total('domain', $where);
 // 获得当前页码
 $now_page = intval($_GET['page']) ? intval($_GET['page']) : 1;
-$params   = array(
-    'total_rows'=> $count, #(必须)
-    'method'    => 'html', #(必须)
-    'parameter' => 'domain.php?page=$',  #(必须)
-    'now_page'  => $now_page,  #(必须)
-    'list_rows' => PAGE_NUM, #(可选) 默认为15
-);
-// 实例化分页类
-$objPage  = new page($params);
-// 分页
-$page_str = $objPage->show($now_page);
 
 // 计算偏移量
 $offset   = PAGE_NUM * ($now_page - 1);
@@ -139,7 +128,11 @@ if (count($arrData) == count($arrData, 1)) {
 
 					<div class="paginate">
 						<ul class="clear">
-							<?php echo $page_str ?>
+						<?php if ($count > PAGE_NUM){ 
+								// 实例化分页类
+							$objPage  = new page($count, PAGE_NUM, $now_page, '?page={page}');
+							echo $objPage->myde_write();
+							}  ?>
 						</ul>
 					</div>
 				</div> <!-- end table -->
