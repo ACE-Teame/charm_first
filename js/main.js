@@ -36,6 +36,18 @@
             $('.popup').removeClass('active');
             return false;
         });
+
+        //get current sidebar menu-list 
+        var str = window.location.pathname;
+        var i = str.lastIndexOf('/');
+        var j = str.lastIndexOf('.');
+        var ret = str.substring(i + 1, j);
+        $('#' + ret).addClass('active');
+
+
+// var i = str.lastIndexOf('a');//查找最后一个a出现的位置
+
+
         
     });
 })(jQuery);

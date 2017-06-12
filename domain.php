@@ -59,34 +59,9 @@ if (count($arrData) == count($arrData, 1)) {
 </head>
 <body>
 	<div class="container clear">
-		<div class="container-left">
-			<div class="logo">
-				<div class="img"><a href="index.html"><img src="images/logo.png" alt=""></a></div>
-			</div>
-			<ul class="nav">
-				<li>
-				    <a href="index.php" class="active menu_list">首页</a>
-				</li>
-				<li>
-				    <a href="domain.php" class="menu_list">域名管理</a>
-				</li>
-				<li>
-				    <a href="dp-links.php" class="menu_list">部门链接管理</a>
-				</li>
-				<li>
-				    <a href="links.php" class="menu_list">个人链接管理</a>
-				</li>
-				<li>
-				    <a href="permit.php" class="menu_list">权限管理</a>
-				</li>
-			</ul>
-		</div>
+		<?php require ('sidebar.php');?>
 		<div class="container-right">
-			<div class="top">
-				<ul class="handle">
-					<li><a href="#" class="login">登录</a></li>
-				</ul>
-			</div>
+			<?php require ('header.php');?>
 			<div class="main">
 				<h2>域名管理</h2>
 				<div class="operate">
@@ -185,7 +160,11 @@ if (count($arrData) == count($arrData, 1)) {
 							</div>	
 							<div class="entry">
 								<label>性质:</label>
-								<input type="text" name="nature" id="nature" placeholder="企业/个人">
+								<!-- <input type="text" name="nature" id="nature" placeholder="企业/个人"> -->
+								<select name="nature" id="nature">
+									<option value ="企业" selected>企业</option>
+									<option value ="个人">个人</option>
+								</select>
 							</div>
 						
 					</div>
@@ -197,32 +176,6 @@ if (count($arrData) == count($arrData, 1)) {
 					<div class="close"><a href="#" class="btn-close"><i class="iconfont icon-close"></i></a></div> 
 				</div>
 			</div><!-- end popup -->
-
-			<div class="popupLogin">
-				<div class="content">
-					<div class="title">登录</div>
-					<div class="form">						
-						<form action="#" class="loginForm">
-							<div class="entry">
-								<input type="hidden" name="dplinkID">
-							</div>
-							<div class="entry">
-								<label>用户名:</label>
-								<input type="text" name="username" placeholder="">
-							</div>
-							<div class="entry">
-								<label>密码:</label>
-								<input type="password" name="password" placeholder=""> 
-							</div>
-						</form>
-					</div>
-					<div class="operate">					
-						<a href="#" class="btn save">登录</a>
-						<a href="#" class="btn cancle">取消</a>
-					</div>
-					<div class="close"><a href="#" class="btn-close"><i class="iconfont icon-close"></i></a></div> 
-				</div>
-			</div>
 		</div>
 	</div>
 	<script type="text/javascript" src="js/jquery.min.js"></script>
