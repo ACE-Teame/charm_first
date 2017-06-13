@@ -16,6 +16,7 @@ if($_POST) {
 	];
 
 	if($_POST['id'] && intval($_POST['id'])) {
+		$domain['time'] = strtotime($domain['time']);
 		$pdo->update('person_link', $from_data, 'id=' . intval($_POST['id']));
 	}else {
 		$intInsID = $pdo->insert('person_link',$from_data);
@@ -38,12 +39,9 @@ $now_page = intval($_GET['page']) ? intval($_GET['page']) : 1;
 
 // 计算偏移量
 $offset   = PAGE_NUM * ($now_page - 1);
-$arrData =  $pdo->select('person_link', $where, '', '', "$offset," . PAGE_NUM);
-if (count($arrData) == count($arrData, 1)) {
-	$tmpData   = $arrData;
-	$arrData   = [];
-	$arrData[] = $tmpData;
-}
+$arrData  =  $pdo->select('person_link', $where, '', '', "$offset," . PAGE_NUM);
+
+array_change($arrData);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -159,7 +157,7 @@ if (count($arrData) == count($arrData, 1)) {
 							</div>
 							<div class="entry">
 								<label>时间:</label>
-								<input type="text" name="time" id="time" placeholder="">
+								<input type="text" name="time" id="time" placeholder="" onclick="WdatePicker()">
 							</div>	
 							<div class="entry">
 								<label>是否是H5:</label>

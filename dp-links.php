@@ -14,7 +14,7 @@ if($_POST) {
 	];
 
 	if($_POST['id'] && intval($_POST['id'])) {
-		unset($domain['time']);
+		$domain['time'] = strtotime($domain['time']);
 		$pdo->update('section_link', $from_data, 'id=' . intval($_POST['id']));
 	}else {
 		$intInsID = $pdo->insert('section_link',$from_data);
@@ -39,11 +39,8 @@ $now_page = intval($_GET['page']) ? intval($_GET['page']) : 1;
 // 计算偏移量
 $offset   = PAGE_NUM * ($now_page - 1);
 $arrData =  $pdo->select('section_link', $where, '', '', "$offset," . PAGE_NUM);
-if (count($arrData) == count($arrData, 1)) {
-	$tmpData   = $arrData;
-	$arrData   = [];
-	$arrData[] = $tmpData;
-}
+
+array_change($arrData);
 ?>
 
 <!DOCTYPE html>
@@ -153,7 +150,7 @@ if (count($arrData) == count($arrData, 1)) {
 							</div>
 							<div class="entry">
 								<label>域名</label>
-								<input type="text" name="domain" id="domain" placeholder="http://"> 
+								<input type="text" name="domain" id="domains" placeholder="http://"> 
 							</div>
 							<div class="entry">
 								<label>客户:</label>
@@ -161,7 +158,7 @@ if (count($arrData) == count($arrData, 1)) {
 							</div>
 							<div class="entry">
 								<label>日期:</label>
-								<input type="text" name="time" id="time" placeholder="">
+								<input type="text" name="time" id="time" placeholder="" onclick="WdatePicker()">
 							</div>
 							<div class="entry">
 								<label>状态:</label>
@@ -188,7 +185,7 @@ if (count($arrData) == count($arrData, 1)) {
 			$.get('app.php',{id:id, state:'seclink', type:'modi'}, function(data) {
 				if(data.status == 200) {
 					var result = JSON.parse(data.msg);
-					$('#domain').val(result.domain);
+					$('#domains').val(result.domain);
 					$('#section').val(result.section);
 					$('#time').val(result.time);
 					$('#costomer').val(result.costomer);

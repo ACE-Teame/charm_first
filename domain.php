@@ -17,7 +17,8 @@ if($_POST) {
 	];
 
 	if($_POST['id'] && intval($_POST['id'])) {
-		unset($domain['time']);
+		$domain['time'] = strtotime($domain['time']);
+		// unset($domain['time']);
 		$pdo->update('domain', $from_data, 'id=' . intval($_POST['id']));
 	}else {
 		$intInsID = $pdo->insert('domain',$from_data);
@@ -33,7 +34,7 @@ if ($_GET) {
 	if($_GET['record_number']) $where .= "record_number like '%".$_GET["record_number"]. "%' AND";
 	if($_GET['start_time']) $where .= 'time > '. strtotime($_GET['start_time']) . ' AND';
 	if($_GET['end_time']) $where .= ' time < '. strtotime($_GET['end_time']) . ' AND';
-	
+
 	$where = $where ? rtrim($where, ' AND') : '';
 }
 
@@ -48,11 +49,7 @@ $offset   = PAGE_NUM * ($now_page - 1);
 // 取出数据
 $arrData =  $pdo->select('domain', $where, '', '', "$offset," . PAGE_NUM);
 // 一维数组转为二维
-if (count($arrData) == count($arrData, 1) && $arrData) {
-	$tmpData         = $arrData;
-	$arrData   = [];
-	$arrData[] = $tmpData;
-}
+array_change($arrData);
 ?>
 
 <!DOCTYPE html>
@@ -152,11 +149,11 @@ if (count($arrData) == count($arrData, 1) && $arrData) {
 							</div>
 							<div class="entry">
 								<label>域名:</label>
-								<input type="text" name="domain" id="domain" placeholder="http://">
+								<input type="text" name="domain" id="domains" value="" placeholder="http://">
 							</div>
 							<div class="entry">
 								<label>日期</label>
-								<input type="text" name="time" id="time" placeholder=""> 
+								<input type="text" name="time" id="time" placeholder="" onclick="WdatePicker()"> 
 							</div>
 							<div class="entry">
 								<label>费用:</label>
@@ -197,7 +194,7 @@ if (count($arrData) == count($arrData, 1) && $arrData) {
 			$.get('app.php',{id:id, state:'domain', type:'modi'}, function(data) {
 				if(data.status == 200) {
 					var result = JSON.parse(data.msg);
-					$('#domain').val(result.domain);
+					$('#domains').val(result.domain);
 					$('#time').val(result.time);
 					$('#money').val(result.money);
 					$('#record_number').val(result.record_number);
@@ -205,7 +202,7 @@ if (count($arrData) == count($arrData, 1) && $arrData) {
 					$('#nature').val(result.nature);
 					$('#id').val(result.id);
 				}
-				console.log(data);
+				// console.log(data);
 			}, 'json');
 		}
 	</script>	

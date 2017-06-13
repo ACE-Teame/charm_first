@@ -49,3 +49,16 @@
 		echo "<script type='text/javascript' src='js/main.js'></script>";
 		echo "<script type='text/javascript' src='js/My97DatePicker/WdatePicker.js'></script>";
 	}
+
+	/**
+	 * 判断是否为一维数组 是就转为二维数组
+	 * @param  array  $array 数组
+	 * @return array        [description]
+	 */
+	function array_change(&$array) {
+		if (count($array) == count($array, 1) && $array) {
+			$tmparr  = $array;
+			$array   = [];
+			$array[] = $tmparr;
+		}
+	}

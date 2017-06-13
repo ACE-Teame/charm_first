@@ -9,7 +9,7 @@ if($arrGet['type'] == 'modi') {
 	// 查询域名管理数据
 	if($arrGet['state'] == 'domain' && $id) {
 		$data = $pdo->select('domain', 'id=' . $id);
-
+		
 	// 查询部门链接数据
 	}else if($arrGet['state'] == 'seclink' && $id) {
 		$data = $pdo->select('section_link', 'id=' . $id);
