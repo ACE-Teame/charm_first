@@ -26,14 +26,18 @@ if($_POST) {
 
 // get方式为查询 组装查询条件
 $where = '';
+
 if ($_GET) {
 	if($_GET['domain']) $where = "domain like '%".$_GET["domain"]. "%' AND";
 	if($_GET['nature']) $where .= "nature like '%".$_GET["nature"]. "%' AND";
-	// if($_GET['domain']) $where .= 'domain like %'.$_GET['domain']. '% AND';
 	if($_GET['record_number']) $where .= "record_number like '%".$_GET["record_number"]. "%' AND";
-
+	if($_GET['start_time']) $where .= 'time > '. strtotime($_GET['start_time']) . ' AND';
+	if($_GET['end_time']) $where .= ' time < '. strtotime($_GET['end_time']) . ' AND';
+	
 	$where = $where ? rtrim($where, ' AND') : '';
 }
+
+// echo $where;
 // 取出总数量
 $count    = $pdo->total('domain', $where);
 // 获得当前页码
@@ -44,7 +48,7 @@ $offset   = PAGE_NUM * ($now_page - 1);
 // 取出数据
 $arrData =  $pdo->select('domain', $where, '', '', "$offset," . PAGE_NUM);
 // 一维数组转为二维
-if (count($arrData) == count($arrData, 1)) {
+if (count($arrData) == count($arrData, 1) && $arrData) {
 	$tmpData         = $arrData;
 	$arrData   = [];
 	$arrData[] = $tmpData;
@@ -83,8 +87,8 @@ if (count($arrData) == count($arrData, 1)) {
 					</div>
 					<div class="entry">
 						<label>时间范围:</label>
-						<input type="text" name="starttime" placeholder="起始时间"> - 
-						<input type="text" name="endtime" placeholder="结束时间">
+						<input type="text" name="start_time" placeholder="起始时间"  onClick="WdatePicker()"> - 
+						<input name="end_time" placeholder="结束时间"  type="text" onClick="WdatePicker()">
 					</div>
 					<div class="entry">
 						<label>备案号:</label>
@@ -107,7 +111,7 @@ if (count($arrData) == count($arrData, 1)) {
 							</tr>
 						</thead>
 						<tbody>
-							<?php if($arrData) { foreach ($arrData as $key => $value){ ?>
+							<?php if($arrData || $arrData[0]) { foreach ($arrData as $key => $value){ ?>
 								<tr>
 									<td><?php echo $value['id'] ?></td>
 									<td><?php echo $value['domain'] ?></td>
@@ -130,7 +134,7 @@ if (count($arrData) == count($arrData, 1)) {
 						<ul class="clear">
 						<?php if ($count > PAGE_NUM){ 
 								// 实例化分页类
-							$objPage  = new page($count, PAGE_NUM, $now_page, '?page={page}');
+							$objPage  = new page($count, PAGE_NUM, $now_page, '?page={page}' . get_search_url());
 							echo $objPage->myde_write();
 							}  ?>
 						</ul>
@@ -186,8 +190,7 @@ if (count($arrData) == count($arrData, 1)) {
 			</div><!-- end popup -->
 		</div>
 	</div>
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
+	<?php common_js() ?>
 	<script>
 
 		function modify(id) {

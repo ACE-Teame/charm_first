@@ -23,12 +23,13 @@ if($_POST) {
 
 // get方式为查询 组装查询条件
 $where = '';
+
 if ($_GET) {
 	if($_GET['section']) $where = "section like '%".$_GET["section"]. "%' AND";
 	if($_GET['domain']) $where .= "domain like '%".$_GET["domain"]. "%' AND";
-	// if($_GET['domain']) $where .= 'domain like %'.$_GET['domain']. '% AND';
 	if($_GET['state']) $where .= "state like '%".$_GET["state"]. "%' AND";
-
+	if($_GET['start_time']) $where .= 'time > '. strtotime($_GET['start_time']) . ' AND';
+	if($_GET['end_time']) $where .= ' time < '. strtotime($_GET['end_time']) . ' AND';
 	$where = $where ? rtrim($where, ' AND') : '';
 }
 
@@ -77,8 +78,8 @@ if (count($arrData) == count($arrData, 1)) {
 					</div>
 					<div class="entry">
 						<label>时间范围:</label>
-						<input type="text" name="starttime" placeholder="起始时间"> - 
-						<input type="text" name="endtime" placeholder="结束时间">
+						<input type="text" name="start_time" placeholder="起始时间" onClick="WdatePicker()"> - 
+						<input type="text" name="end_time" placeholder="结束时间" onClick="WdatePicker()">
 					</div>
 					<div class="entry">
 						<label>状态:</label>
@@ -122,7 +123,7 @@ if (count($arrData) == count($arrData, 1)) {
 						<ul class="clear">
 							<?php if ($count > PAGE_NUM){ 
 								// 实例化分页类
-								$objPage  = new page($count, PAGE_NUM, $now_page, '?page={page}');
+								$objPage  = new page($count, PAGE_NUM, $now_page, '?page={page}' . get_search_url());
 								echo $objPage->myde_write();
 							} ?>
 						</ul>
@@ -181,8 +182,7 @@ if (count($arrData) == count($arrData, 1)) {
 			</div><!-- end popup -->		
 		</div>
 	</div>
-	<script type="text/javascript" src="js/jquery.min.js"></script>	
-	<script type="text/javascript" src="js/main.js"></script>
+	<?php common_js() ?>
 	<script>
 		function modify(id) {
 			$.get('app.php',{id:id, state:'seclink', type:'modi'}, function(data) {
