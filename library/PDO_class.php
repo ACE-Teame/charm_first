@@ -116,7 +116,7 @@ class server
 	* @param string $limit 该参数查询限制，从什么开始..每次查询多少记录，例子： 5,10 （从5开始查，向后查10条记录）、例子2： 10（只查10条记录出来）
 	* @return Ambigous <>|multitype:
 	*/
-	function select($table, $where = '', $join = '', $desc = '', $limit = '')
+	function select($table, $where = '', $join = '', $desc = '', $limit = '', $search_felid = '')
 	{ 
 		$ifwhere    = '';
 		$order      = '';
@@ -134,14 +134,15 @@ class server
 		if (! empty($limit)) {
 			$desc_limit = "limit {$limit}";
 		}
-		$Model = $this->server->prepare("SELECT * FROM {$table} {$join} {$ifwhere} {$order} {$desc_limit}"); // 参加预执行sql语句，pdo对象方法
+		if(empty($search_felid)) $search_felid = '*';
+		$Model = $this->server->prepare("SELECT {$search_felid} FROM {$table} {$join} {$ifwhere} {$order} {$desc_limit}"); // 参加预执行sql语句，pdo对象方法
 		$Model->execute(); // 空数组，表示这里我不需要预处理的数据
 		$m_data = $Model->fetchAll(2); // 二维数组
-		if (count($m_data) == 1) {
-			return $m_data[0]; // 返回一个一维数组
-		} else {
+		// if (count($m_data) == 1) {
+		// 	return $m_data[0]; // 返回一个一维数组
+		// } else {
 			return $m_data; // 返回一个二维数组
-		}
+		// }
 	}
 
 

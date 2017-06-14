@@ -40,8 +40,10 @@ $now_page = intval($_GET['page']) ? intval($_GET['page']) : 1;
 // 计算偏移量
 $offset   = PAGE_NUM * ($now_page - 1);
 $arrData  =  $pdo->select('person_link', $where, '', '', "$offset," . PAGE_NUM);
+// array_change($arrData);
+$arrState  =  $pdo->select('person_link', '', '', '', "", 'state');
 
-array_change($arrData);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -171,8 +173,13 @@ array_change($arrData);
 								<label>状态:</label>
 								<!-- <input type="text" name="state" id="state" placeholder=""> -->
 								<select name="state" id="state">
-									<option value ="新链接" selected>新链接</option>
-									<option value ="改版">改版</option>
+									<?php if ($arrState){ $tmpSelect = [];?>
+										<?php foreach ($arrState as $value){ 
+											if(in_array($value['state'], $tmpSelect)) continue;
+											$tmpSelect[] = $value['state']; ?>
+											<option value ="<?php echo $value['state']?>" selected><?php echo $value['state']?></option>
+										<?php } ?>
+									<?php } ?>
 								</select>
 							</div>
 						</form>

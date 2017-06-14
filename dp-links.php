@@ -39,8 +39,7 @@ $now_page = intval($_GET['page']) ? intval($_GET['page']) : 1;
 // 计算偏移量
 $offset   = PAGE_NUM * ($now_page - 1);
 $arrData =  $pdo->select('section_link', $where, '', '', "$offset," . PAGE_NUM);
-
-array_change($arrData);
+$arrDomain  =  $pdo->select('section_link', '', '', '', "", 'section');
 ?>
 
 <!DOCTYPE html>
@@ -140,12 +139,13 @@ array_change($arrData);
 								<label>部门:</label>
 								<!-- <input type="text" name="section" id="section" placeholder=""> -->
 								<select name="section" id="section">
-									<option value ="扶翼" selected>扶翼</option>
-									<option value ="微博">微博</option>
-									<option value="陌陌">陌陌</option>
-									<option value="TSA">TSA</option>
-									<option value="KA">KA</option>
-									<option value="海外">海外</option>
+								<?php if ($arrDomain){ $tmpSelect = [];?>
+									<?php foreach ($arrDomain as $value){ 
+										if(in_array($value['section'], $tmpSelect)) continue;
+										$tmpSelect[] = $value['section']; ?>
+										<option value ="<?php echo $value['section']?>" selected><?php echo $value['section']?></option>
+									<?php } ?>
+								<?php } ?>
 								</select>
 							</div>
 							<div class="entry">

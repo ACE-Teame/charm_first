@@ -18,8 +18,8 @@ if($arrGet['type'] == 'modi') {
 	}
 	
 	if($data && is_array($data)) {
-		$data['time'] = date('Y-m-d H:i:s', $data['time']);
-		ajaxReturn(200, json_encode($data));
+		$data[0]['time'] = date('Y-m-d H:i:s', $data[0]['time']);
+		ajaxReturn(200, json_encode($data[0]));
 	}
 }
 
