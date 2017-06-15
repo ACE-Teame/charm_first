@@ -177,8 +177,8 @@ array_change($arrData);
 							</div>
 						
 					</div>
-					<div class="operate">					
-						<a href="javascript:document.form1.submit();" class="btn save" >保存</a>
+					<div class="operate">
+						<a href="javascript:document.form1.submit();" class="btn save">保存</a>
 						<a href="#" class="btn cancle">取消</a>
 					</div>
 					</form>

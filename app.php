@@ -15,6 +15,8 @@ if($arrGet['type'] == 'modi') {
 		$data = $pdo->select('section_link', 'id=' . $id);
 	}else if($arrGet['state'] == 'perlink' && $id) {
 		$data = $pdo->select('person_link', 'id=' . $id);
+	}else if($arrGet['state'] == 'user' && $id) {
+		$data = $pdo->select('user', 'id=' . $id);
 	}
 	
 	if($data && is_array($data)) {
@@ -32,6 +34,8 @@ if($arrGet['type'] == 'del') {
 		$delId = $pdo->delete('section_link', 'id=' . $id);
 	}else if($arrGet['state'] == 'perlink' && $id) {
 		$delId = $pdo->delete('person_link', 'id=' . $id);
+	}else if($arrGet['state'] == 'user' && $id) {
+		$delId = $pdo->delete('user', 'id=' . $id);
 	}
 	if($delId) ajaxReturn(200);
 }
