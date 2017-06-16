@@ -14,7 +14,7 @@ if($_POST) {
 	];
 
 	if($_POST['id'] && intval($_POST['id'])) {
-		$domain['time'] = strtotime($domain['time']);
+		$from_data['time'] = strtotime($_POST['time']);
 		$pdo->update('section_link', $from_data, 'id=' . intval($_POST['id']));
 	}else {
 		$intInsID = $pdo->insert('section_link',$from_data);

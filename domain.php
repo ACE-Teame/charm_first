@@ -17,7 +17,7 @@ if($_POST) {
 	];
 
 	if($_POST['id'] && intval($_POST['id'])) {
-		$domain['time'] = strtotime($domain['time']);
+		$from_data['time'] = strtotime($_POST['time']);
 		// unset($domain['time']);
 		$pdo->update('domain', $from_data, 'id=' . intval($_POST['id']));
 	}else {
