@@ -1,33 +1,37 @@
 # zjm-pro
-目录结构
+用于个人工作信息采集。
+## 目录结构 ##
 
-common 公共文件目录 
+    common 
+    	--> common.php
+	config 
+		--> config.php
+	css
+	images
+	js
+	library 
+		--> PDO_class.php  PDO类库
+		--> page_class.php PDO类库
+	app.php 		核心处理文件
+	domain.php  	域名管理文件
+	dp-links.php  	部门链接管理
+	index.php  		主页
+	init.php  		初始化配置文件
+	links.php 		个人链接管理
+	permit 			用户管理
 
-  	--> common.php
-config 配置文件目录
 
-	--> config.php
-css
 
-images
 
-js
 
-library 类库目录
 
-	--> PDO_class.php  PDO类库
-	--> page_class.php 分页类库
 
-app.php 		核心处理文件
 
-domain.php  	域名管理文件
 
-dp-links.php  	部门链接管理
 
-index.php  		主页
 
-init.php  		初始化配置文件
 
-links.php 		个人链接管理
+
+
 
 
