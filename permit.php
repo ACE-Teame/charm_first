@@ -49,13 +49,8 @@ $now_page = intval($_GET['page']) ? intval($_GET['page']) : 1;
 $offset   = PAGE_NUM * ($now_page - 1);
 // 取出数据
 $arrData =  $pdo->select('user', $where, '', '', "$offset," . PAGE_NUM);
-// 一维数组转为二维
-array_change($arrData);
-// p($arrData);
 
- ?>
-
-
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

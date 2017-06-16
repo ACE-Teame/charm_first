@@ -1,17 +1,23 @@
 <?php 
+session_start();
 require_once "init.php";
-require_once CLASS_PATH. "PDO_class.php";
-require_once COMMON_PATH. "common.php";
-
-// require_once COMMON_PATH
-
+require_once CLASS_PATH  . "PDO_class.php";
+require_once COMMON_PATH . "common.php";
 $pdo = new server();
-
-
-
-
+if($_POST) {
+	$where = '';
+	if($_POST['name']) $where = 'name=' . "'" . trim($_POST['name']) . "'";
+	$arrData = $pdo->select('user', $where);
+	if(is_array($arrData[0])) {
+		if(password_verify(trim($_POST['password']), $arrData[0]['password']))  {
+			$_SESSION['uid']  = $arrData[0]['id'];
+			$_SESSION['name'] = $arrData[0]['name'];
+		}else {
+			echo "<p style='color:red;'>登陆失败</p>";
+		}	
+	}
+}
  ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

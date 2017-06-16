@@ -137,12 +137,9 @@ class server
 		if(empty($search_felid)) $search_felid = '*';
 		$Model = $this->server->prepare("SELECT {$search_felid} FROM {$table} {$join} {$ifwhere} {$order} {$desc_limit}"); // 参加预执行sql语句，pdo对象方法
 		$Model->execute(); // 空数组，表示这里我不需要预处理的数据
-		$m_data = $Model->fetchAll(2); // 二维数组
-		// if (count($m_data) == 1) {
-		// 	return $m_data[0]; // 返回一个一维数组
-		// } else {
-			return $m_data; // 返回一个二维数组
-		// }
+		
+		return $Model->fetchAll(2); // 二维数组
+		
 	}
 
 

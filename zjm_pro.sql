@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-06-15 22:56:08
+Date: 2017-06-16 22:14:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -158,10 +158,11 @@ CREATE TABLE `user` (
   `group_name` varchar(32) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用(1启用0停用)',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', '小二', '$2y$10$4/QgcXqbldPGwpQ5z9HtueSa.s.GefhB8bxLiSUlz789E69FHqucm', '1497537807', '1', '1');
 INSERT INTO `user` VALUES ('2', '小三', '$2y$10$OKsK7j.OWds9iZh8JgNywezKpJ3lGnJyXoTI7/trzKi.i9wWidZvC', '1497538310', '管理员', '1');
+INSERT INTO `user` VALUES ('4', '小四', '$2y$10$m7bDI59d4503.DiExFdpuOp5KUVHqLqUJ88znv760eGA/12u9uAtG', '1497622447', '管理员', '1');

@@ -1,3 +1,8 @@
+<?php 
+require_once "init.php";
+
+ ?>
+
 <div class="container-left">
 	<div class="logo">
 		<div class="img"><a href="index.html"><img src="images/logo.png" alt=""></a></div>
@@ -15,8 +20,11 @@
 		<li>
 		    <a href="links.php" class="menu_list" id="links">个人链接管理</a>
 		</li>
+		<?php if ($_SESSION['uid']): ?>
 		<li>
 		    <a href="permit.php" class="menu_list" id="permit">权限管理</a>
 		</li>
+		<?php endif ?>
+		
 	</ul>
 </div>

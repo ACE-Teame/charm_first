@@ -31,3 +31,4 @@ define('APP_PATH', dirname(__FILE__));
 define("CONFIG_PATH", APP_PATH. '\config\\');
 define("CLASS_PATH", APP_PATH. '\library\\');
 define("COMMON_PATH", APP_PATH. '\common\\');
+session_start();

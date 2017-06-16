@@ -93,7 +93,10 @@ $arrDomain  =  $pdo->select('section_link', '', '', '', "", 'section');
 								<th>日期</th>
 								<th>客户</th>
 								<th>状态</th>
-								<th>操作</th>
+								<?php if ($_SESSION['uid']): ?>
+									<th>操作</th>
+								<?php endif ?>
+								
 							</tr>
 						</thead>
 						<tbody>
@@ -106,10 +109,13 @@ $arrDomain  =  $pdo->select('section_link', '', '', '', "", 'section');
 									<td><?php echo date('Y-m-d H:i:s', $value['time']) ?></td>
 									<td><?php echo $value['costomer'] ?></td>
 									<td><?php echo $value['state'] ?></td>
-									<td>
-										<a href="#" class="btn modify" onclick="modify(<?php echo $value['id'] ?>)">修改</a>
-										<a href="#" class="btn delete" onclick="delete_by_id(<?php echo $value['id'] ?>, 'seclink')">删除</a>
-									</td>
+									<?php if ($_SESSION['uid']): ?>
+										<td>
+											<a href="#" class="btn modify" onclick="modify(<?php echo $value['id'] ?>)">修改</a>
+											<a href="#" class="btn delete" onclick="delete_by_id(<?php echo $value['id'] ?>, 'seclink')">删除</a>
+										</td>	
+									<?php endif ?>
+									
 								</tr>
 							<?php endforeach ?>
 						<?php endif ?>

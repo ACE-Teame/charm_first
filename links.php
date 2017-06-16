@@ -97,7 +97,10 @@ $arrState  =  $pdo->select('person_link', '', '', '', "", 'state');
 								<th>时间</th>
 								<th>是否是H5</th>
 								<th>状态</th>
-								<th>操作</th>
+								<?php if ($_SESSION['uid']): ?>
+									<th>操作</th>
+								<?php endif ?>
+								
 							</tr>
 						</thead>
 						<tbody>
@@ -112,10 +115,13 @@ $arrState  =  $pdo->select('person_link', '', '', '', "", 'state');
 									<td><?php echo date('Y-m-d H:i:s', $value['time']) ?></td>
 									<td><?php echo $value['is_h5'] ?></td>
 									<td><?php echo $value['state'] ?></td>
-									<td>
-										<a href="#" class="btn modify" onclick="modify(<?php echo $value['id'] ?>)">修改</a>
-										<a href="#" class="btn delete" onclick="delete_by_id(<?php echo $value['id'] ?>, 'perlink')">删除</a>
-									</td>
+									<?php if ($_SESSION['uid']): ?>
+										<td>
+											<a href="#" class="btn modify" onclick="modify(<?php echo $value['id'] ?>)">修改</a>
+											<a href="#" class="btn delete" onclick="delete_by_id(<?php echo $value['id'] ?>, 'perlink')">删除</a>
+										</td>
+									<?php endif ?>
+									
 								</tr>	
 							<?php endforeach ?>
 						<?php endif ?>

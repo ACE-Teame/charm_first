@@ -48,8 +48,6 @@ $now_page = intval($_GET['page']) ? intval($_GET['page']) : 1;
 $offset   = PAGE_NUM * ($now_page - 1);
 // 取出数据
 $arrData =  $pdo->select('domain', $where, '', '', "$offset," . PAGE_NUM);
-// 一维数组转为二维
-array_change($arrData);
 ?>
 
 <!DOCTYPE html>
@@ -104,7 +102,10 @@ array_change($arrData);
 								<th>备案号</th>
 								<th>域名所属公司</th>
 								<th>性质</th>
-								<th>操作</th>
+								<?php if ($_SESSION['uid']): ?>
+									<th>操作</th>
+								<?php endif ?>
+								
 							</tr>
 						</thead>
 						<tbody>
@@ -117,10 +118,13 @@ array_change($arrData);
 									<td><?php echo $value['record_number'] ?></td>
 									<td><?php echo $value['company'] ?></td>
 									<td><?php echo $value['nature'] ?></td>
+									<?php if ($_SESSION['uid']): ?>
 									<td>
 										<a href="#" class="btn modify" id="" onclick="modify(<?php echo $value['id'] ?>)">修改</a>
 										<a href="#" class="btn delete" onclick="delete_by_id(<?php echo $value['id'] ?>, 'domain')">删除</a>
-									</td>
+									</td>	
+									<?php endif ?>
+									
 								</tr>
 							<?php } } ?>
 							
