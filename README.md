@@ -11,7 +11,7 @@
 	js
 	library 
 		--> PDO_class.php  PDO类库
-		--> page_class.php PDO类库
+		--> page_class.php 分页类库
 	app.php         核心处理文件
 	domain.php      域名管理文件
 	dp-links.php    部门链接管理
